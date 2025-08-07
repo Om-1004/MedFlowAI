@@ -1,5 +1,14 @@
 import React from "react";
 import { Activity, Mail, Phone, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const links = [
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+  { name: "Upload Center", path: "/uploads" },
+  { name: "About", path: "/about" },
+  { name: "Contact", path: "/contact" },
+];
 
 export default function Footer() {
   return (
@@ -28,18 +37,16 @@ export default function Footer() {
           <div className="flex flex-col items-center sm:items-start gap-4">
             <h4 className="text-white text-xl font-semibold">Quick Links</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              {["Home", "Services", "Upload Center", "About", "Contact"].map(
-                (link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="hover:text-white transition-colors duration-200"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                )
-              )}
+              {links.map(({ name, path }) => (
+                <li key={name}>
+                  <Link
+                    to={path}
+                    className="hover:text-white transition-colors duration-200"
+                  >
+                    {name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -48,15 +55,15 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex items-center gap-2">
                 <Mail className="w-5 h-5 text-blue-400" />
-                <span>info@healthai.edu</span>
+                <span>medflowai.co@gmail.com</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-5 h-5 text-blue-400" />
-                <span>+1 (555) 123-4567</span>
+                <span>+1 (123) 456-7890</span>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-blue-400" />
-                <span>Educational Project</span>
+                <span>Toronto</span>
               </li>
             </ul>
           </div>
@@ -64,7 +71,8 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-gray-800 mt-16 pt-6 text-center text-sm text-gray-500">
-        © 2024 MedFlowAI — Educational project created for learning purposes only.
+        © 2024 MedFlowAI — Educational project created for learning purposes
+        only.
       </div>
     </footer>
   );

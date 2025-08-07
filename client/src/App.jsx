@@ -5,6 +5,8 @@ import ServicesPage from "./pages/ServicesPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ContactPage from "./pages/ContactPage";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
 export default function App() {
   return (
     <div>
@@ -14,6 +16,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
         <Footer />
       </BrowserRouter>

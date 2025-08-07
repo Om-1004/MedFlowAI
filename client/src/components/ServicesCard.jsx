@@ -1,5 +1,5 @@
 import React from "react";
-import { MoveRight} from "lucide-react";
+import { MoveRight } from "lucide-react";
 
 export default function ServicesCard({
   title,
@@ -13,6 +13,7 @@ export default function ServicesCard({
   requiredInputs,
   keyFeatures,
   reverse = false,
+  techs,
 }) {
   return (
     <div className="w-full max-w-6xl mx-auto mb-8">
@@ -79,7 +80,7 @@ export default function ServicesCard({
                 <h4 className="font-semibold text-gray-900 mb-4 text-center lg:text-left">
                   Required Information
                 </h4>
-                <div className="space-y-3">
+                <div className="space-y-3 mb-4">
                   {requiredInputs.map((input, idx) => (
                     <div key={idx} className="flex items-center gap-3">
                       <div
@@ -94,6 +95,22 @@ export default function ServicesCard({
                     </div>
                   ))}
                 </div>
+
+                {techs && techs.length > 0 && (
+                  <div className="pt-4 border-t border-gray-100">
+                    <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                      {techs.map((tech, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-2 px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded-full"
+                        >
+                          {tech.icon}
+                          <span>{tech.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

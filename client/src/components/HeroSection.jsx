@@ -10,8 +10,10 @@ import React from "react";
 import FeatureCard from "./FeatureCard";
 
 import HeroServiceCard from "./HeroServiceCard";
+import { useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
+  const navigate = useNavigate();
   const features = [
     {
       Icon: Upload,
@@ -50,10 +52,10 @@ export default function HeroSection() {
         </p>
 
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 w-full md:w-auto mt-8">
-          <button className="w-full md:w-auto bg-[#2c5eea] hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md transition">
+          <button className="w-full md:w-auto bg-[#2c5eea] hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md transition" onClick={() => navigate("/services")}>
             Explore Services
           </button>
-          <button className="w-full md:w-auto text-[#2c5eea] border border-[#2c5eea] hover:bg-[#eaf0ff] font-semibold px-6 py-3 rounded-md transition">
+          <button className="w-full md:w-auto text-[#2c5eea] border border-[#2c5eea] hover:bg-[#eaf0ff] font-semibold px-6 py-3 rounded-md transition" onClick={() => navigate("/about")}>
             Learn More
           </button>
         </div>
