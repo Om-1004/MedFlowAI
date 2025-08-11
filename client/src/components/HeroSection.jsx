@@ -4,7 +4,7 @@ import {
   Activity,
   Upload,
   FlaskConical,
-  User,
+  Users
 } from "lucide-react";
 import React from "react";
 import FeatureCard from "./FeatureCard";
@@ -20,7 +20,7 @@ export default function HeroSection() {
         "Simple, intuitive interface designed for users of all technical backgrounds.",
     },
     {
-      Icon: User,
+      Icon: Users,
       title: "Educational Focus",
       description:
         "Designed for learning and exploration, not as a replacement for medical advice.",

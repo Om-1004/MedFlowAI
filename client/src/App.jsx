@@ -5,6 +5,8 @@ import ServicesPage from "./pages/ServicesPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ContactPage from "./pages/ContactPage";
+import UploadCenterPage from "./pages/UploadCenterPage";
+import AboutPage from "./pages/AboutPage";
 export default function App() {
   return (
     <div>
@@ -14,6 +16,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/upload" element={<UploadCenterPage />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

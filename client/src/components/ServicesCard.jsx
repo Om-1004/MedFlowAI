@@ -1,5 +1,5 @@
 import React from "react";
-import { MoveRight} from "lucide-react";
+import { MoveRight } from "lucide-react";
 
 export default function ServicesCard({
   title,
