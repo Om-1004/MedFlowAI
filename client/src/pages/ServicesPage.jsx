@@ -1,6 +1,10 @@
 import React from "react";
 import ServicesCard from "../components/ServicesCard";
 import { Activity, Brain, Heart } from "lucide-react";
+import { FaPython } from "react-icons/fa";
+import { SiPandas, SiNumpy, SiScikitlearn } from "react-icons/si";
+import { GiArtificialIntelligence } from "react-icons/gi";
+import { TbFileDownload } from "react-icons/tb";
 
 export default function ServicesPage() {
   return (
@@ -35,6 +39,23 @@ export default function ServicesPage() {
             "Sleep quality assessment",
             "Personalized recommendations",
             "Risk factor identification",
+          ]}
+          techs={[
+            { name: "Python", icon: <FaPython className="text-yellow-400" /> },
+            { name: "Pandas", icon: <SiPandas className="text-indigo-500" /> },
+            { name: "NumPy", icon: <SiNumpy className="text-blue-500" /> },
+            {
+              name: "Scikit-Learn",
+              icon: <SiScikitlearn className="text-orange-500" />,
+            },
+            {
+              name: "Imbalanced-learn",
+              icon: <GiArtificialIntelligence className="text-pink-500" />,
+            },
+            {
+              name: "Joblib",
+              icon: <TbFileDownload className="text-green-500" />,
+            },
           ]}
           reverse={true}
         />

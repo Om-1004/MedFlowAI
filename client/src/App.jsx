@@ -1,12 +1,17 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import HomePage from "./pages/HomePage";
 import ServicesPage from "./pages/ServicesPage";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import ContactPage from "./pages/ContactPage";
 import UploadCenterPage from "./pages/UploadCenterPage";
 import AboutPage from "./pages/AboutPage";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 export default function App() {
   return (
     <div>
@@ -18,6 +23,8 @@ export default function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/upload" element={<UploadCenterPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
         <Footer />
       </BrowserRouter>
