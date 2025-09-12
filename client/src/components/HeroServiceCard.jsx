@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HeroServiceCard({
   title,
@@ -10,6 +11,7 @@ export default function HeroServiceCard({
   ctaText,
   ctaColor,
 }) {
+  const navigate = useNavigate();
   return (
     <div
       className="rounded-2xl p-6 w-full max-w-md shadow-sm md:p-8 md:w-[800px] flex flex-col justify-between"
@@ -37,14 +39,18 @@ export default function HeroServiceCard({
 
         <div className="hidden md:block flex-grow" />
 
-        <div className="mt-14 md:mt-4 flex items-center space-x-2 cursor-pointer md:justify-start justify-center">
-        <span
-            className="font-semibold text-sm md:text-base"
+        <div className="mt-14 md:mt-4 flex items-center space-x-2 cursor-pointer md:justify-start justify-center group">
+          <button
+            className="font-semibold text-sm md:text-base transition-colors duration-300 group-hover:underline"
             style={{ color: ctaColor }}
+            onClick={() => navigate("/sleep-assessment")}
           >
             {ctaText}
-          </span>
-          <span style={{ color: ctaColor }} className="text-lg">
+          </button>
+          <span
+            style={{ color: ctaColor }}
+            className="text-lg transition-transform duration-300 group-hover:translate-x-1"
+          >
             →
           </span>
         </div>
@@ -52,4 +58,3 @@ export default function HeroServiceCard({
     </div>
   );
 }
-

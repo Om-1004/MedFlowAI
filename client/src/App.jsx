@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import SleepModelForm from "./pages/SleepModelForm";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/sleep-assessment" element={<SleepModelForm />} />
         </Routes>
         <Footer />
       </BrowserRouter>
