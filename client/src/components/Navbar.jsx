@@ -18,13 +18,13 @@ export default function Navbar() {
   return (
     <div className="">
       <header className="flex justify-between items-center text-black py-3 px-8 md:px-14 bg-white drop-shadow-md relative z-10">
-        <div className="flex gap-2 items-center">
+        <button onClick={() => navigate("/")} className="flex gap-2 items-center">
           <Activity
             size={35}
             className="hover:scale-105 transition-all text-[#1A73E8]"
           />
           <h1 className="text-xl font-semibold">MedFlowAI</h1>
-        </div>
+        </button>
 
         <ul className="hidden xl:flex items-center gap-12 md:gap-3 font-light text-base">
           {navItems.map(({ name, path }) => (

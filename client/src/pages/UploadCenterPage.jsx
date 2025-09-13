@@ -1,3 +1,4 @@
+import React from "react";
 import UploadCenterCard from "../components/UploadCenterCard.jsx";
 import StepsGuide from "../components/StepsGuide.jsx";
 import {
