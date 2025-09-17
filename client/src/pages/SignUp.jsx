@@ -3,8 +3,11 @@ import { Eye, EyeOff, User, Mail, Lock, Activity } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { userPool } from "../cognitoConfig";
+import { userPool } from "../auth/cognitoConfig";
 import { CognitoUser } from "amazon-cognito-identity-js";
+import { useDispatch } from "react-redux";
+import { signInSuccess } from "../redux/user/userSlice";
+import { CognitoUserAttribute } from "amazon-cognito-identity-js";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -20,6 +23,7 @@ export default function Login() {
   const [step, setStep] = useState("signup");
   const [confirmationCode, setConfirmationCode] = useState("");
   const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -78,11 +82,17 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const attributes = [
+      new CognitoUserAttribute({
+        Name: "name",
+        Value: formData.fullName,
+      }),
+    ];
     if (validateForm()) {
       userPool.signUp(
         formData.email,
         formData.password,
-        [],
+        attributes,
         null,
         (err, result) => {
           if (err) {
@@ -105,6 +115,7 @@ export default function Login() {
               result.user.getUsername()
             );
             setStep("confirm");
+            //dispatch(signInSuccess(formData.fullName));
           }
         }
       );

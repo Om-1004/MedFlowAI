@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signInSuccess } from "../redux/user/userSlice";
 import { Eye, EyeOff, User, Mail, Lock, Activity } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { userPool } from "../cognitoConfig";
-import { CognitoUser } from "amazon-cognito-identity-js";
+import { userPool } from "../auth/cognitoConfig";
+import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import * as AmazonCognitoIdentity from "amazon-cognito-identity-js";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -14,6 +17,8 @@ export default function SignIn() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,15 +45,12 @@ export default function SignIn() {
 
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
       const authenticationDetails =
@@ -61,14 +63,35 @@ export default function SignIn() {
         Pool: userPool,
       });
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: (result) => {
+        onSuccess: () => {
           console.log("Form submitted:", formData);
-          
-          navigate("/")
+          cognitoUser.getUserAttributes((err, attrs) => {
+            if (err) {
+              console.error("Error fetching attributes:", err);
+              return;
+            }
+            let fullName = "";
+            attrs.forEach((attr) => {
+              if (
+                attr.getName() === "name" ||
+                attr.getName() === "custom:fullName"
+              ) {
+                fullName = attr.getValue();
+              }
+            });
+            dispatch(signInSuccess(fullName));
+            console.log(user);
+            navigate("/");
+          });
         },
-        onFailure: (err) => {
+        onFailure: (err, attrs) => {
           console.error("Authentication failed:", err);
-          setErrors({ general: err.message || JSON.stringify(err) });
+          if (err === "NotAuthorizedException") {
+            setErrors({ password: "Incorrect username or password" });
+          } else {
+            setErrors({ password: err.message || JSON.stringify(err) });
+          }
+          return;
         },
       });
     } else {
@@ -76,6 +99,7 @@ export default function SignIn() {
       return;
     }
   };
+  console.log("Current user state:", user);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-start justify-center px-4 pt-12 md:pt-16">

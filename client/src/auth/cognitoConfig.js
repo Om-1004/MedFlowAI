@@ -5,6 +5,7 @@ export const cognitoAuthConfig = {
   ClientId: import.meta.env.VITE_CLIENT_ID,
 };
 
+
 console.log("Cognito Config:", cognitoAuthConfig);
 
 export const userPool = new CognitoUserPool(cognitoAuthConfig);
