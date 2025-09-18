@@ -63,7 +63,7 @@ export default function SignIn() {
         Pool: userPool,
       });
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: () => {
+        onSuccess: (session) => {
           console.log("Form submitted:", formData);
           cognitoUser.getUserAttributes((err, attrs) => {
             if (err) {
@@ -84,7 +84,7 @@ export default function SignIn() {
             navigate("/");
           });
         },
-        onFailure: (err, attrs) => {
+        onFailure: (err) => {
           console.error("Authentication failed:", err);
           if (err === "NotAuthorizedException") {
             setErrors({ password: "Incorrect username or password" });
