@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.env
+.venv/
+.ipynb_checkpoints/
+.git/
+.gitignore
+.DS_Store
+# keep your model artifacts if you need them
+# models/*.tmp
