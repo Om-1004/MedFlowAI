@@ -1,4 +1,3 @@
-// api/index.js
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -7,9 +6,18 @@ import predictionRouter from "./routes/prediction.route.js";
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(express.json()); // IMPORTANT: before routers
+// ✅ CORS configured from env
+app.use(cors({
+  origin: process.env.CORS_ORIGIN?.split(",") || "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true
+}));
 
+// ✅ body parsing
+app.use(express.json());
+
+// ✅ routes
 app.use("/model", modelRouter);
 app.use("/predictions", predictionRouter);
 

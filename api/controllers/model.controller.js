@@ -1,4 +1,4 @@
-// mode.controller.js
+// model.controller.js
 import axios from "axios";
 
 export const test = async (_req, res) => {
@@ -38,26 +38,25 @@ export const sendData = async (req, res) => {
       });
     }
 
-    // ✅ Forward EXACTLY what FastAPI expects (camelCase + raw categories)
+    // ✅ Build payload exactly as FastAPI expects
     const payload = {
-      gender,                // "Male" | "Female"
+      gender,
       age: Number(age),
-      occupation,            // e.g., "Software Engineer"
+      occupation,
       sleepDuration: Number(sleepDuration),
       qualitySleep: Number(qualitySleep),
       physicalActivity: Number(physicalActivity),
       stressLevel: Number(stressLevel),
-      BMI,                   // "Normal" | "Overweight" | "Obese" | "Underweight"
+      BMI,
       systolic: Number(systolic),
       diastolic: Number(diastolic),
       heartRate: Number(heartRate),
       dailySteps: Number(dailySteps),
     };
 
-    // ✅ Correct FastAPI route (no /api prefix unless you added it yourself)
-    const fastapiURL = process.env.ML_URL || "http://localhost:8000/predict";
-
-    const { data } = await axios.post(fastapiURL, payload, {
+    // ✅ Use correct env var (matches docker-compose.yml)
+    const baseURL = process.env.ML_SERVICE_URL || "http://localhost:8000";
+    const { data } = await axios.post(`${baseURL}/predict`, payload, {
       headers: { "Content-Type": "application/json" },
       timeout: 10000,
     });
