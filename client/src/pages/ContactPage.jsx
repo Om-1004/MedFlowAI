@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from "react";
 import { Mail, Phone, MapPin, ChevronDown, Send } from 'lucide-react';
 
 export default function ContactPage() {

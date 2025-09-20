@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ServicesCard from "../components/ServicesCard";
 import { Activity, Brain, Heart } from "lucide-react";
 import { FaPython } from "react-icons/fa";
