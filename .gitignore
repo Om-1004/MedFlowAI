@@ -1,0 +1,44 @@
+# ---- Environment files ----
+.env
+*/.env
+**/.env
+
+# ---- Node.js ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# ---- Build outputs ----
+dist/
+build/
+dist-ssr/
+*.local
+
+# ---- IDE/editor ----
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ---- Docker ----
+*.pid
+
+
+# Python
+__pycache__/
+venv/
+.venv/
