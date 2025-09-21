@@ -1,8 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signInSuccess } from "../redux/user/userSlice";
 import { Eye, EyeOff, User, Mail, Lock, Activity } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { userPool } from "../auth/cognitoConfig";
+import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import * as AmazonCognitoIdentity from "amazon-cognito-identity-js";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -12,6 +17,8 @@ export default function SignIn() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,19 +45,61 @@ export default function SignIn() {
 
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted:", formData);
+      const authenticationDetails =
+        new AmazonCognitoIdentity.AuthenticationDetails({
+          Username: formData.email,
+          Password: formData.password,
+        });
+      const cognitoUser = new CognitoUser({
+        Username: formData.email,
+        Pool: userPool,
+      });
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: (session) => {
+          console.log("Form submitted:", formData);
+          cognitoUser.getUserAttributes((err, attrs) => {
+            if (err) {
+              console.error("Error fetching attributes:", err);
+              return;
+            }
+            let fullName = "";
+            attrs.forEach((attr) => {
+              if (
+                attr.getName() === "name" ||
+                attr.getName() === "custom:fullName"
+              ) {
+                fullName = attr.getValue();
+              }
+            });
+            dispatch(signInSuccess(fullName));
+            console.log(user);
+            navigate("/");
+          });
+        },
+        onFailure: (err) => {
+          console.error("Authentication failed:", err);
+          if (err === "NotAuthorizedException") {
+            setErrors({ password: "Incorrect username or password" });
+          } else {
+            setErrors({ password: err.message || JSON.stringify(err) });
+          }
+          return;
+        },
+      });
+    } else {
+      console.log("Validation errors:", errors);
+      return;
     }
   };
+  console.log("Current user state:", user);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-start justify-center px-4 pt-12 md:pt-16">
@@ -60,7 +109,7 @@ export default function SignIn() {
             <Activity className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Log In</h1>
-          <p className="text-gray-600">Join us to start your health journey</p>
+          <p className="text-gray-600">Join us to start your health journey!</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-sm border border-gray-100">
