@@ -110,6 +110,8 @@ export const getPredictionById = async (req, res) => {
       new GetCommand({
         TableName: process.env.TABLE_NAME,
         Key: { userId, predictionId },
+        
+
       })
     );
 
@@ -121,5 +123,6 @@ export const getPredictionById = async (req, res) => {
   } catch (err) {
     console.error("Error fetching prediction by ID:", err);
     res.status(500).json({ error: "Failed to fetch prediction" });
+    
   }
 };
