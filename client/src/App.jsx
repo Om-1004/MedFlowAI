@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SleepModelForm from "./pages/SleepModelForm";
+import PredictCnn from "./pages/PredictCNN";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sleep-assessment" element={<SleepModelForm />} />
+          <Route path="/predict-cnn" element={<PredictCnn />} />
         </Routes>
         <Footer />
       </BrowserRouter>

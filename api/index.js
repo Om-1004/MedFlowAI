@@ -8,11 +8,11 @@ const app = express();
 
 // ✅ CORS configured from env
 app.use(cors({
-  origin: process.env.CORS_ORIGIN?.split(",") || "*",
+  origin: "*",   // allow all for dev
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
-  credentials: true
 }));
+
 
 // ✅ body parsing
 app.use(express.json());

@@ -38,6 +38,11 @@ export const sendData = async (req, res) => {
       });
     }
 
+
+
+    
+    
+
     // ✅ Build payload exactly as FastAPI expects
     const payload = {
       gender,
