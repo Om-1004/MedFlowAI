@@ -28,7 +28,7 @@ export default function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sleep-assessment" element={<SleepModelForm />} />
-          <Route path="/predict-cnn" element={<PredictCnn />} />
+          <Route path="/brain-tumor-prediction" element={<PredictCnn />} />
         </Routes>
         <Footer />
       </BrowserRouter>

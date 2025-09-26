@@ -1,20 +1,20 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import api from "../axios/axios.js";
 
 export default function SleepModelForm() {
   const [formData, setFormData] = useState({
-    gender: "Male",
-    age: "28",
-    occupation: "Software Engineer",
-    sleepDuration: "5.9",
-    qualitySleep: "4",
-    physicalActivity: "30",
-    stressLevel: "8",
-    BMI: "Overweight",
-    heartRate: "85",
-    dailySteps: "3000",
-    systolic: "140",
-    diastolic: "90",
+    gender: "",
+    age: "",
+    occupation: "",
+    sleepDuration: "",
+    qualitySleep: "",
+    physicalActivity: "",
+    stressLevel: "",
+    BMI: "",
+    heartRate: "",
+    dailySteps: "",
+    systolic: "",
+    diastolic: "",
   });
 
   const [prediction, setPrediction] = useState(null);
