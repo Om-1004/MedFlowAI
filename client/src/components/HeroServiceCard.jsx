@@ -10,6 +10,7 @@ export default function HeroServiceCard({
   iconBg,
   ctaText,
   ctaColor,
+  linkTo
 }) {
   const navigate = useNavigate();
   return (
@@ -43,7 +44,7 @@ export default function HeroServiceCard({
           <button
             className="font-semibold text-sm md:text-base transition-colors duration-300 group-hover:underline"
             style={{ color: ctaColor }}
-            onClick={() => navigate("/sleep-assessment")}
+            onClick={() => navigate(linkTo)}
           >
             {ctaText}
           </button>

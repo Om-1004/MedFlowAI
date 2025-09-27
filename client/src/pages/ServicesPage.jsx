@@ -27,6 +27,7 @@ export default function ServicesPage() {
           bgColor="#f0fdf4"
           ctaText="Start Analysis"
           ctaColor="#16a34a"
+          linkTo="/sleep-assessment"
           requiredInputs={[
             "Age, Gender, Occupation",
             "Sleep duration and quality",
@@ -68,6 +69,7 @@ export default function ServicesPage() {
           bgColor="#faf5ff"
           ctaText="Start Analysis"
           ctaColor="#9333ea"
+          linkTo="/brain-tumor-prediction"
           requiredInputs={[
             "MRI scan upload (JPG/PNG)",
             "Image quality verification",
@@ -89,7 +91,7 @@ export default function ServicesPage() {
           iconColor="#f97316"
           iconBg="#ffedd5"
           bgColor="#fff7ed"
-          ctaText="Start Analysis"
+          ctaText="In Progress"
           ctaColor="#ea580c"
           requiredInputs={[
             "Age, Gender, Cancer type",
@@ -105,6 +107,7 @@ export default function ServicesPage() {
             "Trend monitoring",
           ]}
           reverse={true}
+          disabled={true}
         />
       </div>
     </div>

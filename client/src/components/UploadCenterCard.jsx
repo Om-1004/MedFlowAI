@@ -1,5 +1,6 @@
 import React from "react";
 import { Hourglass } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function UploadCenterCard({
   title,
@@ -14,7 +15,9 @@ export default function UploadCenterCard({
   iconBg,
   bgColor,
   CtaIcon,
+  linkTo
 }) {
+  const navigate = useNavigate
   return (
     <div
       className="w-full mb-8 h-fit mt-5 pb-7 pt-8 pl-7 pr-7 md:ml-7 md:mr-7 border rounded-2xl"
@@ -41,13 +44,13 @@ export default function UploadCenterCard({
           {time}
         </div>
       </div>
-      <div
+      <button onClick={() => navigate(linkTo)}
         className="p-2 flex mx-auto text-white text-center border rounded-xl max-w-fit font-semibold px-6 py-3 mt-5 justify-center gap-2 items-center "
         style={{ backgroundColor: ctaColor }}
       >
         {ctaText}
         <Icon className="w-4 h-4"></Icon>
-      </div>
+      </button>
     </div>
   );
 }
