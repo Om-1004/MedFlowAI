@@ -15,10 +15,10 @@ export default function ServicesCard({
   keyFeatures,
   reverse = false,
   techs,
-  linkTo
+  linkTo,
+  disabled = false,
 }) {
   const navigate = useNavigate();
-
   return (
     <div className="w-full max-w-6xl mx-auto mb-8">
       <div
@@ -69,9 +69,17 @@ export default function ServicesCard({
 
             {ctaText && (
               <button
-                onClick={() => linkTo && navigate(linkTo)}
-                className="hidden lg:inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
-                style={{ backgroundColor: ctaColor }}
+                onClick={() => {
+                  if (!disabled && linkTo) navigate(linkTo);
+                }}
+                disabled={disabled}
+                className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200
+    ${
+      disabled
+        ? "bg-gray-400 cursor-not-allowed opacity-60"
+        : "hover:shadow-lg hover:scale-105 active:scale-95"
+    }`}
+                style={{ backgroundColor: disabled ? "#9ca3af" : ctaColor }}
               >
                 {ctaText}
                 <MoveRight className="w-4 h-4" />
@@ -124,9 +132,17 @@ export default function ServicesCard({
         {ctaText && (
           <div className="lg:hidden text-center mt-8">
             <button
-              onClick={() => linkTo && navigate(linkTo)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
-              style={{ backgroundColor: ctaColor }}
+              onClick={() => {
+                if (!disabled && linkTo) navigate(linkTo);
+              }}
+              disabled={disabled}
+              className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200
+    ${
+      disabled
+        ? "bg-gray-400 cursor-not-allowed opacity-60"
+        : "hover:shadow-lg hover:scale-105 active:scale-95"
+    }`}
+              style={{ backgroundColor: disabled ? "#9ca3af" : ctaColor }}
             >
               {ctaText}
               <MoveRight className="w-4 h-4" />

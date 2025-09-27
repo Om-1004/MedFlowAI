@@ -11,7 +11,8 @@ export default function PredictCnn() {
  const CLASS_LABELS = ["glioma", "meningioma", "notumor", "pituitary"];
 
 
- const handleUpload = async () => {
+  console.log(import.meta.env.VITE_ML_SERVICE_URL) // undefined
+  const handleUpload = async () => {
     if (!file) return alert("Please select an image!");
 
 
@@ -24,7 +25,7 @@ export default function PredictCnn() {
 
 
     try {
-      const res = await fetch("http://localhost:8000/predict_cnn", {
+      const res = await fetch(`${import.meta.env.VITE_ML_SERVICE_URL}/predict_cnn`, {
         method: "POST",
         body: formData,
       });
