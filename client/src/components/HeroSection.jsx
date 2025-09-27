@@ -79,6 +79,7 @@ export default function HeroSection() {
             bgColor="#f0fdf4"
             ctaColor="#16a34a"
             ctaText="Start Analysis"
+            linkTo="/sleep-assessment"
           />
 
           <HeroServiceCard
@@ -90,6 +91,7 @@ export default function HeroSection() {
             bgColor="#faf5ff"
             ctaColor="#9333ea"
             ctaText="Upload Scan"
+            linkTo="/brain-tumor-prediction"
           />
 
           <HeroServiceCard

@@ -1,5 +1,6 @@
 import React from "react";
 import { MoveRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function ServicesCard({
   title,
@@ -14,7 +15,10 @@ export default function ServicesCard({
   keyFeatures,
   reverse = false,
   techs,
+  linkTo
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full max-w-6xl mx-auto mb-8">
       <div
@@ -65,6 +69,7 @@ export default function ServicesCard({
 
             {ctaText && (
               <button
+                onClick={() => linkTo && navigate(linkTo)}
                 className="hidden lg:inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
                 style={{ backgroundColor: ctaColor }}
               >
@@ -119,6 +124,7 @@ export default function ServicesCard({
         {ctaText && (
           <div className="lg:hidden text-center mt-8">
             <button
+              onClick={() => linkTo && navigate(linkTo)}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
               style={{ backgroundColor: ctaColor }}
             >

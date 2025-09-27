@@ -143,7 +143,6 @@ def predict(features: SleepFeatures):
 
 
 @app.post("/predict_cnn")
-@app.post("/predict_cnn")
 async def predict_cnn(file: UploadFile = File(...)):
     if _cnn_model is None:
         return {"success": False, "error": "CNN model not loaded."}

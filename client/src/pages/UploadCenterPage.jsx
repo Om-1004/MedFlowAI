@@ -43,6 +43,7 @@ export default function UploadCenterPage() {
           bgColor="#f0fdf4"
           CtaIcon={Heart}
           ctaColor="#16a34a"
+          linkTo="/sleep-assessment"
         />
 
         <UploadCenterCard
@@ -58,6 +59,7 @@ export default function UploadCenterPage() {
           bgColor="#faf5ff"
           CtaIcon={Brain}
           ctaColor="#9333ea"
+          linkTo="/brain-tumor-prediction"
         />
         <UploadCenterCard
           title="Cancer Risk Assessment"
