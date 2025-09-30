@@ -29,7 +29,6 @@ export default function SleepModelForm() {
     1: "Sleep Apnea",
     2: "Insomnia",
     None: "No Sleep Disorder",
-    None: "No Sleep Disorder",
     "Sleep Apnea": "Sleep Apnea",
     Insomnia: "Insomnia",
   };

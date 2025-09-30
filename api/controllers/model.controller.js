@@ -1,7 +1,7 @@
 // model.controller.js
 import axios from "axios";
 
-export const test = async (_req, res) => {
+export const test = async (req, res) => {
   res.json({ message: "Works" });
 };
 
@@ -40,10 +40,6 @@ export const sendData = async (req, res) => {
 
 
 
-    
-    
-
-    // ✅ Build payload exactly as FastAPI expects
     const payload = {
       gender,
       age: Number(age),
@@ -59,7 +55,6 @@ export const sendData = async (req, res) => {
       dailySteps: Number(dailySteps),
     };
 
-    // ✅ Use correct env var (matches docker-compose.yml)
     const baseURL = process.env.ML_SERVICE_URL || "http://localhost:8000";
     const { data } = await axios.post(`${baseURL}/predict`, payload, {
       headers: { "Content-Type": "application/json" },
