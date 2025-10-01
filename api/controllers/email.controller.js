@@ -10,7 +10,7 @@ export const sendEmail = async (req, res) => {
       ToAddresses: ["medflowai.co@gmail.com"], 
     },
     Message: {
-      Subject: { Data: `Contact Form: ${subject}` },
+      Subject: { Data: `You’ve received a new contact form submission from MedFlowAI User: ${subject}` },
       Body: {
         Text: { Data: `Name: ${name}\nEmail: ${email}\n\n${message}` },
       },
