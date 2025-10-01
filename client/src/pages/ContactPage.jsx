@@ -206,10 +206,10 @@ export default function ContactPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white"
                 >
                   <option value="">Select a subject</option>
-                  <option value="general">General Inquiry</option>
-                  <option value="technical">Technical Support</option>
-                  <option value="feedback">Feedback</option>
-                  <option value="collaboration">
+                  <option value="General">General Inquiry</option>
+                  <option value="Technical">Technical Support</option>
+                  <option value="Feedback">Feedback</option>
+                  <option value="Collaboration">
                     Educational Collaboration
                   </option>
                   <option value="other">Other</option>
