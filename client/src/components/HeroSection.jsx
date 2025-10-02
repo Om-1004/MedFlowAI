@@ -103,6 +103,7 @@ export default function HeroSection() {
             bgColor="#fff7ed"
             ctaColor="#ea580c"
             ctaText="Begin Assessment"
+            linkTo="/cancer-risk-prediction"
           />
         </div>
       </div>
