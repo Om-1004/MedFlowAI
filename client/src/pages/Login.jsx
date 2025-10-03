@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { userPool } from "../auth/cognitoConfig";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import * as AmazonCognitoIdentity from "amazon-cognito-identity-js";
+import OAuth from "../components/OAuth";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ export default function SignIn() {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -208,16 +211,8 @@ export default function SignIn() {
             <div className="flex-1 border-t border-gray-200"></div>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-3">
-            <button className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-              <FcGoogle className="mr-2" />
-              <span className="text-sm font-medium">Google</span>
-            </button>
-            <button className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-              <FaFacebookF className="mr-2 text-[#1877F2]" />
-              <span className="text-sm font-medium">Facebook</span>
-            </button>
-          </div>
+
+          <OAuth />
         </div>
       </div>
     </div>
