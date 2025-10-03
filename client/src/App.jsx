@@ -13,8 +13,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SleepModelForm from "./pages/SleepModelForm";
 import PredictCnn from "./pages/PredictCNN";
-import PredictANN from "./pages/PredictANN";
-
+import CancerModel from "./pages/PredictANN";
+import ProtectedRoute from "./components/ProtectedRoute";
 export default function App() {
   return (
     <div>
@@ -28,10 +28,11 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/sleep-assessment" element={<SleepModelForm />} />
-          <Route path="/brain-tumor-prediction" element={<PredictCnn />} />
-          <Route path="/predict-ann" element={<PredictANN /> } />
+          <Route path="/sleep-assessment" element={<ProtectedRoute><SleepModelForm /></ProtectedRoute>} />
+          <Route path="/brain-tumor-prediction" element={<ProtectedRoute><PredictCnn /></ProtectedRoute>} />
+          <Route path="/cancer-risk-prediction" element={<ProtectedRoute><CancerModel /></ProtectedRoute>} />
         </Routes>
+        
         <Footer />
       </BrowserRouter>
     </div>
