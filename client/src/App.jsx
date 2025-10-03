@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SleepModelForm from "./pages/SleepModelForm";
 import PredictCnn from "./pages/PredictCNN";
+import PredictANN from "./pages/PredictANN";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/sleep-assessment" element={<SleepModelForm />} />
           <Route path="/brain-tumor-prediction" element={<PredictCnn />} />
+          <Route path="/predict-ann" element={<PredictANN /> } />
         </Routes>
         <Footer />
       </BrowserRouter>

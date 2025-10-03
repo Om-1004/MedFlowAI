@@ -1,66 +1,80 @@
 import os
-import io
 import pandas as pd
-import numpy as np
 from typing import Optional, Any
 
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field, validator
-from joblib import load
+from pydantic import BaseModel, validator
+import joblib
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
-from PIL import Image
- 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.getenv(
-    "MODEL_PATH",
-    os.path.join(BASE_DIR, "sleep_disorder_best_model.joblib")
-)
-CNN_MODEL_PATH = os.path.join(BASE_DIR, "cnn_model.keras")
 
-_loaded_obj: Optional[Any] = None
-_model: Optional[Any] = None
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SLEEP_MODEL_PATH = os.path.join(BASE_DIR, "sleep_disorder_best_model.joblib")
+CNN_MODEL_PATH = os.path.join(BASE_DIR, "cnn_model.keras")
+ANN_MODEL_PATH = os.path.join(BASE_DIR, "ann_model.keras")
+PREPROCESSOR_PATH = os.path.join(BASE_DIR, "preprocessor.joblib")
+
+print("=== PATH DEBUG ===")
+print("BASE_DIR:", BASE_DIR)
+print("SLEEP_MODEL_PATH:", SLEEP_MODEL_PATH)
+print("CNN_MODEL_PATH:", CNN_MODEL_PATH)
+print("ANN_MODEL_PATH:", ANN_MODEL_PATH)
+print("PREPROCESSOR_PATH:", PREPROCESSOR_PATH)
+print("==================")
+
+
+_sleep_model: Optional[Any] = None
 _label_encoder: Optional[Any] = None
 _cnn_model: Optional[Any] = None
+ann_model = None
+preprocessor = None
 
 
-def _load_model():
-    global _loaded_obj, _model, _label_encoder
-    _loaded_obj = load(MODEL_PATH)
-
-    if isinstance(_loaded_obj, dict):
-        _model = (
-            _loaded_obj.get("pipeline")
-            or _loaded_obj.get("model")
-            or _loaded_obj.get("clf")
-        )
-        _label_encoder = _loaded_obj.get("label_encoder")
-    else:
-        _model = _loaded_obj
-
-    if _model is None:
-        raise RuntimeError("Loaded artifact does not contain a model/pipeline.")
-
+def _load_sleep():
+    global _sleep_model, _label_encoder
+    try:
+        print(">>> Loading joblib sleep model...")
+        sleep_obj = joblib.load(SLEEP_MODEL_PATH)
+        if isinstance(sleep_obj, dict):
+            _sleep_model = sleep_obj.get("pipeline") or sleep_obj.get("model")
+            _label_encoder = sleep_obj.get("label_encoder")
+            print("Loaded dict-based joblib model. Keys:", list(sleep_obj.keys()))
+        else:
+            _sleep_model = sleep_obj
+            print("Loaded joblib object type:", type(_sleep_model))
+        print(f"[OK] Loaded sleep model from: {SLEEP_MODEL_PATH}")
+    except Exception as e:
+        print(f"[ERROR] Failed to load sleep model: {e}")
 
 def _load_cnn():
     global _cnn_model
     try:
+        print(">>> Loading CNN model...")
         _cnn_model = load_model(CNN_MODEL_PATH)
         print(f"[OK] Loaded CNN model from: {CNN_MODEL_PATH}")
     except Exception as e:
         print(f"[ERROR] Failed to load CNN model: {e}")
 
+def _load_ann():
+    global ann_model, preprocessor
+    try:
+        print(">>> Loading ANN model + preprocessor...")
+        ann_model = load_model(ANN_MODEL_PATH)
+        preprocessor = joblib.load(PREPROCESSOR_PATH)
+        print(f"[OK] Loaded ANN model and preprocessor")
+        print("ANN model input:", ann_model.input_shape, "output:", ann_model.output_shape)
+        print("Preprocessor features:", preprocessor.get_feature_names_out()[:10], "...")
+    except Exception as e:
+        print(f"[ERROR] Failed to load ANN model bundle: {e}")
 
-try:
-    _load_model()
-    print(f"[OK] Loaded joblib model from: {MODEL_PATH}")
-except Exception as e:
-    print(f"[ERROR] Failed to load joblib model: {e}")
 
+_load_sleep()
 _load_cnn()
+_load_ann()
 
-app = FastAPI(title="Sleep Disorder Prediction API")
+
+app = FastAPI(title="MedFlowAI Prediction API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -69,7 +83,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 class SleepFeatures(BaseModel):
     gender: str
@@ -86,135 +99,93 @@ class SleepFeatures(BaseModel):
     dailySteps: int
 
     @validator("gender")
-    def normalize_gender(cls, v):
-        return v.strip().title()
+    def normalize_gender(cls, v): return v.strip().title()
 
     @validator("BMI")
-    def normalize_bmi(cls, v):
-        return v.strip().title()
+    def normalize_bmi(cls, v): return v.strip().title()
+
+
+class ANNRequest(BaseModel):
+    Gender: str
+    Country_Region: str
+    Cancer_Type: str
+    Cancer_Stage: str
+    Age: int
+    Year: int
+    Genetic_Risk: float
+    Air_Pollution: float
+    Alcohol_Use: float
+    Smoking: float
+    Obesity_Level: float
+    Treatment_Cost_USD: float
+    Survival_Years: float
 
 
 @app.get("/")
 def root():
     return {
-        "message": "Sleep Disorder Prediction API is running!",
-        "joblib_model_loaded": _model is not None,
+        "message": "MedFlowAI Prediction API is running!",
+        "sleep_model_loaded": _sleep_model is not None,
         "cnn_model_loaded": _cnn_model is not None,
-        "predict_route_joblib": "/predict",
-        "predict_route_cnn": "/predict_cnn",
+        "ann_model_loaded": ann_model is not None and preprocessor is not None,
+        "predict_routes": {
+            "sleep": "/predict",
+            "cnn": "/predict_cnn",
+            "ann": "/predict_ann"
+        }
     }
 
+@app.post("/predict_ann")
+def predict_ann(request: ANNRequest):
+    if ann_model is None or preprocessor is None:
+        return {"success": False, "error": "ANN or preprocessor not loaded"}
 
-@app.post("/predict")
-def predict(features: SleepFeatures):
-    if _model is None:
-        return {"success": False, "error": "Joblib model not loaded."}
+    print("\n--- DEBUG START /predict_ann ---")
+    
+    input_df = pd.DataFrame([{
+        "Gender": request.Gender,
+        "Country_Region": request.Country_Region,
+        "Cancer_Type": request.Cancer_Type,
+        "Cancer_Stage": request.Cancer_Stage,
+        "Age": request.Age,
+        "Year": request.Year,
+        "Genetic_Risk": request.Genetic_Risk,
+        "Air_Pollution": request.Air_Pollution,
+        "Alcohol_Use": request.Alcohol_Use,
+        "Smoking": request.Smoking,
+        "Obesity_Level": request.Obesity_Level,
+        "Treatment_Cost_USD": request.Treatment_Cost_USD,
+        "Survival_Years": request.Survival_Years
+    }])
+    
+    print("[DF] Input DataFrame:\n", input_df)
 
-    try:
-        row = {
-            "Gender": features.gender,
-            "Age": features.age,
-            "Occupation": features.occupation,
-            "Sleep Duration": features.sleepDuration,
-            "Quality of Sleep": features.qualitySleep,
-            "Physical Activity Level": features.physicalActivity,
-            "Stress Level": features.stressLevel,
-            "BMI Category": features.BMI,
-            "Systolic": features.systolic,
-            "Diastolic": features.diastolic,
-            "Heart Rate": features.heartRate,
-            "Daily Steps": features.dailySteps,
-        }
-        X = pd.DataFrame([row])
+    processed_input = preprocessor.transform(input_df)
+    print("[PROC] Shape:", processed_input.shape)
 
-        y_pred = _model.predict(X)
-        pred = y_pred[0]
+    raw_pred = ann_model.predict(processed_input, verbose=0)
+    predicted_score = float(raw_pred[0][0])
+    
+    print("[PRED] Predicted score:", predicted_score)
+    print("--- DEBUG END /predict_ann ---\n")
 
-        if _label_encoder is not None:
-            try:
-                pred = _label_encoder.inverse_transform([pred])[0]
-            except Exception:
-                pass
-
-        return {"success": True, "prediction": str(pred)}
-
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-@app.post("/predict_cnn")
-async def predict_cnn(file: UploadFile = File(...)):
-    if _cnn_model is None:
-        return {"success": False, "error": "CNN model not loaded."}
-
-    try:
-        contents = await file.read()
-        img = Image.open(io.BytesIO(contents)).convert("RGB")
-
-        img = img.resize((128, 128))  
-
-        img_array = image.img_to_array(img) / 255.0
-        img_array = np.expand_dims(img_array, axis=0)
-
-        y_pred = _cnn_model.predict(img_array)
-        pred_class = int(np.argmax(y_pred, axis=1)[0])
-
-        return {
-            "success": True,
-            "predicted_class": pred_class,
-            "raw_output": y_pred.tolist()
-        }
-
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-    if _cnn_model is None:
-        return {"success": False, "error": "CNN model not loaded."}
-
-    try:
-        contents = await file.read()
-        img = Image.open(io.BytesIO(contents)).convert("RGB")
-
-        img = img.resize((128, 128))   
-
-        img_array = image.img_to_array(img) / 255.0
-        img_array = np.expand_dims(img_array, axis=0)
-
-        y_pred = _cnn_model.predict(img_array)
-        pred_class = int(np.argmax(y_pred, axis=1)[0])
-
-        return {
-            "success": True,
-            "predicted_class": pred_class,
-            "raw_output": y_pred.tolist()
-        }
-
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-    if _cnn_model is None:
-        return {"success": False, "error": "CNN model not loaded."}
-
-    try:
-        X = np.array(data.get("features")).reshape(1, -1)
-
-        y_pred = _cnn_model.predict(X)
-        pred_class = int(np.argmax(y_pred, axis=1)[0])
-
-        return {
-            "success": True,
-            "raw_output": y_pred.tolist(),
-            "predicted_class": pred_class,
-        }
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
+    return {"success": True, "predicted_score": predicted_score}
 
 @app.get("/health")
 def health():
     return {
         "ok": True,
-        "joblib_model_loaded": _model is not None,
+        "sleep_model_loaded": _sleep_model is not None,
         "cnn_model_loaded": _cnn_model is not None,
-        "joblib_model_path": MODEL_PATH,
-        "cnn_model_path": CNN_MODEL_PATH,
+        "ann_model_loaded": ann_model is not None and preprocessor is not None,
+    }
+
+
+@app.post("/predict_ann_test")
+def predict_ann_test(request: ANNRequest):
+    """Test endpoint with dummy prediction"""
+    return {
+        "success": True, 
+        "predicted_score": 4.67,
+        "note": "This is a test response. Real model needs version-matched preprocessor."
     }
