@@ -1,11 +1,9 @@
 import React from "react";
 import { Target, Cpu, Brain, Shield, Zap, Code } from "lucide-react";
-import UploadCenterCard from "../components/UploadCenterCard.jsx";
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
       <div className="max-w-5xl mx-auto px-6 pt-20 pb-16">
         <div className="text-center">
           
@@ -20,7 +18,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Mission Section */}
       <div className="max-w-5xl mx-auto px-6 py-20 border-t border-gray-200">
         <div className="flex flex-col items-center text-center">
           <div className="bg-blue-600 rounded-xl p-5 mb-8">
@@ -37,7 +34,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Technology Section */}
       <div className="bg-gray-50 py-20">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-16">
@@ -45,7 +41,6 @@ export default function AboutPage() {
           </h2>
           
           <div className="grid md:grid-cols-2 gap-12">
-            {/* Machine Learning Models */}
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="bg-purple-600 rounded-lg p-3">
@@ -85,7 +80,6 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Platform Features */}
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="bg-blue-600 rounded-lg p-3">
@@ -127,7 +121,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Important Notice Section */}
       <div className="max-w-5xl mx-auto px-6 py-20">
         <div className="bg-amber-50 border-l-4 border-amber-500 p-10 rounded-r-xl">
           <div className="flex flex-col md:flex-row items-center gap-6">
