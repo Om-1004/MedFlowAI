@@ -141,7 +141,6 @@ export default function SleepModelForm() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Sleep Disorder Predictor</h1>
-              <p className="text-sm text-gray-600 mt-0.5">AI-powered sleep health analysis</p>
             </div>
           </div>
         </div>

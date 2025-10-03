@@ -157,9 +157,6 @@ const PredictANN = () => {
               <h1 className="text-2xl font-bold text-gray-900">
                 Cancer Survival Score Predictor
               </h1>
-              <p className="text-sm text-gray-600 mt-0.5">
-                Neural network-based survival analysis
-              </p>
             </div>
           </div>
         </div>

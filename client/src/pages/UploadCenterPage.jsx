@@ -35,7 +35,7 @@ export default function UploadCenterPage() {
           description="Input your lifestyle and health data for sleep pattern analysis"
           inputType="Form Input"
           InputIcon={FileText}
-          time="2-3 minutes"
+          time="1-3 seconds"
           ctaText="Start Analysis"
           Icon={MoveRight}
           iconColor="#22c55e"
@@ -51,7 +51,7 @@ export default function UploadCenterPage() {
           description="Upload MRI scans for AI-powered tumor detection"
           inputType="Image Input"
           InputIcon={Image}
-          time="1-2 minutes"
+          time="2-3 seconds"
           ctaText="Start Analysis"
           Icon={MoveRight}
           iconColor="#a855f7"
@@ -64,9 +64,9 @@ export default function UploadCenterPage() {
         <UploadCenterCard
           title="Cancer Risk Assessment"
           description="Provide medical data for  MRI scans for AI-powered tumor detection"
-          inputType="Image Input"
+          inputType="Form Input"
           InputIcon={FileText}
-          time="1-2 minutes"
+          time="1-3 seconds"
           ctaText="Start Analysis"
           iconColor="#f97316"
           iconBg="#ffedd5"
@@ -74,6 +74,8 @@ export default function UploadCenterPage() {
           Icon={MoveRight}
           CtaIcon={Activity}
           ctaColor="#ea580c"
+          linkTo="/cancer-risk-prediction"
+
         />
       </div>
       <div className="font-bold text-center text-3xl mt-7 mb-5">

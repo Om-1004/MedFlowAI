@@ -17,7 +17,7 @@ export default function UploadCenterCard({
   CtaIcon,
   linkTo
 }) {
-  const navigate = useNavigate
+  const navigate = useNavigate();
   return (
     <div
       className="w-full mb-8 h-fit mt-5 pb-7 pt-8 pl-7 pr-7 md:ml-7 md:mr-7 border rounded-2xl"
