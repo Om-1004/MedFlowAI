@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  api:
+    image: om101004/medflowai-api:v2.3
+    container_name: medflowai-api
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      AWS_REGION: us-east-1
+      AWS_REGION2: ca-central-1
+      AWS_ACCESS_KEY_ID: AKIA4SYAMH5XFD2TO25N
+      AWS_SECRET_ACCESS_KEY: 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
+      ML_SERVICE_URL: http://ml-service:8000
+      NODE_ENV: production
+      TABLE_NAME: Predictions
+    depends_on:
+      - ml-service
+
+  client:
+    image: om101004/medflowai-frontend:v2.7
+    container_name: medflowai-client
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      VITE_API_BASE_URL: "http://localhost:3000"
+      VITE_USER_POOL_ID: "us-east-1_tx4Qsswuf"
+      VITE_APP_CLIENT_ID: "77o5gamb8kci7cg8vhlgd1eos2"
+      VITE_ML_SERVICE_URL: "http://localhost:8000"
+      VITE_FIREBASE_API_KEY: "AIzaSyAk5iOmy97m7j5_O0dnlmOVh0xgl2RHvYg"
+      VITE_FIREBASE_AUTH_DOMAIN: "medflow-firebase-a5753.firebaseapp.com"
+      VITE_FIREBASE_PROJECT_ID: "medflow-firebase-a5753"
+      VITE_FIREBASE_STORAGE_BUCKET: "medflow-firebase-a5753.firebasestorage.app"
+      VITE_FIREBASE_MESSAGING_SENDER_ID: "910393260209"
+      VITE_FIREBASE_APP_ID: "1:910393260209:web:26e73391eed844cd3c4a90"
+      VITE_FIREBASE_MEASUREMENT_ID: "G-V9L58CMJ88"
+    depends_on:
+      - api
+      - ml-service
+
+  ml-service:
+    image: om101004/medflowai-ml_service:v1.3
+    container_name: medflowai-ml-service
+    restart: always
+    ports:
+      - "8000:8000"

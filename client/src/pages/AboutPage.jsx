@@ -121,26 +121,15 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 py-20">
-        <div className="bg-amber-50 border-l-4 border-amber-500 p-10 rounded-r-xl">
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="bg-amber-500 rounded-xl p-4 shrink-0">
-              <Shield size={32} className="text-white" />
-            </div>
-            
-            <div className="text-center md:text-left">
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                Important Notice
-              </h3>
-              
-              <p className="text-gray-800 text-lg leading-relaxed">
-                This is a personal project created for educational purposes. The
-                predictions provided are not real medical advice and should not
-                replace consultation with licensed healthcare professionals.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div className="bg-[#FEFCEA] mx-auto text-center py-12 md:py-16 px-4 md:px-16">
+        <h3 className="text-2xl font-semibold text-[#7D501F] mb-4">
+          Important Notice
+        </h3>
+        <p className="text-[#7D501F] text-base leading-relaxed max-w-3xl mx-auto">
+          This is a personal project created for educational purposes. The
+          predictions provided are not real medical advice and should not
+          replace consultation with licensed healthcare professionals.
+        </p>
       </div>
     </div>
   );
