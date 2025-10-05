@@ -52,4 +52,4 @@ venv/
 # ==== Kubernetes / YAML configs ====
 *.yaml
 *.yml
-k8s/
+!docker-compose.yaml
