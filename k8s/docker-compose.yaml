@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   api:
-    image: om101004/medflowai-api:v2.3-AMD64
+    image: om101004/medflowai-api:v2.4-multi
     container_name: medflowai-api
     restart: always
     ports:
@@ -13,7 +13,7 @@ services:
       - ml-service
 
   client:
-    image: om101004/medflowai-frontend:v2.7-AMD64
+    image: om101004/medflowai-frontend:v2.8-multi
     container_name: medflowai-client
     restart: always
     ports:
@@ -25,7 +25,7 @@ services:
       - ml-service
 
   ml-service:
-    image: om101004/medflowai-ml_service:v1.4-AMD64
+    image: om101004/medflowai-ml_service:v1.5-multi
     container_name: medflowai-ml-service
     restart: always
     ports:
