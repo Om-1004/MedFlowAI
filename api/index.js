@@ -8,16 +8,14 @@ import emailRouter from "./routes/email.route.js";
 const app = express();
 
 app.use(cors({
-  origin: "*",   // allow all for dev
+  origin: "*",   
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 }));
 
 
-// ✅ body parsing
 app.use(express.json());
 
-// ✅ routes
 app.use("/model", modelRouter);
 app.use("/predictions", predictionRouter);
 app.use("/sendEmail", emailRouter);
