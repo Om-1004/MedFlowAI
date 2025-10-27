@@ -1,20 +1,21 @@
 import React, { useState, useMemo } from "react";
 import { Moon, TrendingUp, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import api from "../axios/axios.js"
 
 export default function SleepModelForm() {
   const [formData, setFormData] = useState({
-    gender: "",
-    age: "",
-    occupation: "",
-    sleepDuration: "",
-    qualitySleep: "",
-    physicalActivity: "",
-    stressLevel: "",
-    BMI: "",
-    heartRate: "",
-    dailySteps: "",
-    systolic: "",
-    diastolic: "",
+    gender: "Male",
+    age: "28",
+    occupation: "Software Engineer",
+    sleepDuration: "5.9",
+    qualitySleep: "4",
+    physicalActivity: "30",
+    stressLevel: "8",
+    BMI: "Overweight",
+    heartRate: "85",
+    dailySteps: "3000",
+    systolic: "140",
+    diastolic: "90",
   });
 
   const [prediction, setPrediction] = useState(null);
@@ -88,12 +89,16 @@ export default function SleepModelForm() {
     };
 
     try {
-      // Simulated API call for demo
-      setTimeout(() => {
-        const pred = ["No Sleep Disorder", "Sleep Apnea", "Insomnia"][Math.floor(Math.random() * 3)];
-        setPrediction(pred);
-        setLoading(false);
-      }, 1500);
+      const res = await api.post("/model/sendData", finalPayload);
+      console.log("Full response:", res);
+      
+      const data = res.data.prediction;
+      console.log(`Output of the response is: ${data}`);
+      
+      setPrediction(displayPrediction(data));
+      setLoading(false);
+      
+
     } catch (err) {
       console.error("Prediction error:", err);
       const msg = err?.message || "An error occurred while making the prediction";
