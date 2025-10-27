@@ -1,4 +1,3 @@
-// model.controller.js
 import axios from "axios";
 
 export const test = async (req, res) => {
@@ -22,7 +21,6 @@ export const sendData = async (req, res) => {
       dailySteps,
     } = req.body;
 
-    // Basic validation
     const missing = [];
     for (const [k, v] of Object.entries({
       gender, age, occupation, sleepDuration, qualitySleep,
@@ -54,7 +52,7 @@ export const sendData = async (req, res) => {
       heartRate: Number(heartRate),
       dailySteps: Number(dailySteps),
     };
-
+    console.log("Forwarding payload to FastAPI:", payload);
     const baseURL = process.env.ML_SERVICE_URL || "http://localhost:8000";
     const { data } = await axios.post(`${baseURL}/predict`, payload, {
       headers: { "Content-Type": "application/json" },
@@ -66,6 +64,7 @@ export const sendData = async (req, res) => {
         success: false,
         error: "FastAPI error",
         details: data,
+        code: data?.code || "NO_SUCCESS_FLAG",
       });
     }
 

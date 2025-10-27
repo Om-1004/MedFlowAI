@@ -15,7 +15,7 @@ export const createPrediction = async (req, res) => {
 
     const predictionId = randomUUID();
     const createdAt = Date.now();
-
+    const seriazlizedInput = JSON.stringify(input);
     const gsi1pk = userId;
     const gsi1sk = `${modelType}#${createdAt}`;
 
@@ -39,7 +39,6 @@ export const createPrediction = async (req, res) => {
       })
     );
 
-    // Success response
     res.status(201).json({
       userId,
       predictionId,
@@ -75,12 +74,12 @@ export const getPredictionsByUser = async (req, res) => {
             ":u": userId,
             ":m": `${modelType}#`,
           },
-          ScanIndexForward: false, // newest first
+          ScanIndexForward: false, // keep new one first
           Limit: Number(limit),
         })
       );
     } else {
-      // Query directly by userId (PK)
+      console.log("Fetching all model types for user:", userId);
       out = await ddb.send(
         new QueryCommand({
           TableName: process.env.TABLE_NAME,
@@ -101,7 +100,6 @@ export const getPredictionsByUser = async (req, res) => {
   }
 };
 
-// Fetch a single prediction by userId + predictionId
 export const getPredictionById = async (req, res) => {
   try {
     const { userId, predictionId } = req.params;
@@ -123,6 +121,6 @@ export const getPredictionById = async (req, res) => {
   } catch (err) {
     console.error("Error fetching prediction by ID:", err);
     res.status(500).json({ error: "Failed to fetch prediction" });
-    
+
   }
 };
