@@ -15,7 +15,6 @@ export const createPrediction = async (req, res) => {
 
     const predictionId = randomUUID();
     const createdAt = Date.now();
-    const seriazlizedInput = JSON.stringify(input);
     const gsi1pk = userId;
     const gsi1sk = `${modelType}#${createdAt}`;
 
@@ -79,7 +78,6 @@ export const getPredictionsByUser = async (req, res) => {
         })
       );
     } else {
-      console.log("Fetching all model types for user:", userId);
       out = await ddb.send(
         new QueryCommand({
           TableName: process.env.TABLE_NAME,

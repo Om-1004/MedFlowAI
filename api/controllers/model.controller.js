@@ -52,7 +52,6 @@ export const sendData = async (req, res) => {
       heartRate: Number(heartRate),
       dailySteps: Number(dailySteps),
     };
-    console.log("Forwarding payload to FastAPI:", payload);
     const baseURL = process.env.ML_SERVICE_URL || "http://localhost:8000";
     const { data } = await axios.post(`${baseURL}/predict`, payload, {
       headers: { "Content-Type": "application/json" },
@@ -64,7 +63,6 @@ export const sendData = async (req, res) => {
         success: false,
         error: "FastAPI error",
         details: data,
-        code: data?.code || "NO_SUCCESS_FLAG",
       });
     }
 
