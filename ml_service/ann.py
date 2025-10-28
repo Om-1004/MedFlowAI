@@ -38,7 +38,6 @@ print(f"Min: {y.min():.2f}, Max: {y.max():.2f}")
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
-view X_train.head()
 print(f"\nTraining samples: {len(X_train)}")
 print(f"Test samples: {len(X_test)}")
 
@@ -107,8 +106,6 @@ joblib.dump(preprocessor, 'preprocessor.joblib')
 print("Files saved successfully!")
 print("   - ann_model.keras")
 print("   - preprocessor.joblib")
-print("Model and preprocessor are ready for deployment.")
-
 print("\n" + "="*50)
 print("VERIFICATION TEST")
 print("="*50)
