@@ -17,20 +17,17 @@ import joblib
 print("Scikit-learn version:", __import__('sklearn').__version__)
 print("TensorFlow version:", tf.__version__)
 
-# Load dataset
 dataset = pd.read_csv('global_cancer_patients_2015_2024.csv')
 print("Dataset shape:", dataset.shape)
 print("Columns:", dataset.columns.tolist())
 
 dataset = dataset.drop(columns=["Patient_ID"])
 
-# Define categorical and numerical columns
 categorical_cols = ["Gender", "Country_Region", "Cancer_Type", "Cancer_Stage"]
 numerical_cols = ["Age", "Year", "Genetic_Risk", "Air_Pollution",
                   "Alcohol_Use", "Smoking", "Obesity_Level",
                   "Treatment_Cost_USD", "Survival_Years"]
 
-# Separate features and target
 X = dataset.drop(columns=["Target_Severity_Score"])
 y = dataset["Target_Severity_Score"]
 
@@ -38,11 +35,10 @@ print("\nTarget statistics:")
 print(f"Mean: {y.mean():.2f}, Std: {y.std():.2f}")
 print(f"Min: {y.min():.2f}, Max: {y.max():.2f}")
 
-# Split data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
-
+view X_train.head()
 print(f"\nTraining samples: {len(X_train)}")
 print(f"Test samples: {len(X_test)}")
 
@@ -111,7 +107,7 @@ joblib.dump(preprocessor, 'preprocessor.joblib')
 print("Files saved successfully!")
 print("   - ann_model.keras")
 print("   - preprocessor.joblib")
-
+print("Model and preprocessor are ready for deployment.")
 
 print("\n" + "="*50)
 print("VERIFICATION TEST")

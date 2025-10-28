@@ -9,5 +9,3 @@ __pycache__/
 .git/
 .gitignore
 .DS_Store
-# keep your model artifacts if you need them
-# models/*.tmp

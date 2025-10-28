@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   define: {
-    global: "window", // 👈 fix "global is not defined"
+    global: "window",
   },
   resolve: {
     alias: {
