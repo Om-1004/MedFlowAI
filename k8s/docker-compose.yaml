@@ -25,7 +25,7 @@ services:
       - ml-service
 
   ml-service:
-    image: om101004/medflowai-ml_service:v1.6
+    image: om101004/medflowai-ml_service:v1.7
     container_name: medflowai-ml-service
     restart: always
     ports:
